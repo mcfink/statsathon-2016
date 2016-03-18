@@ -3,7 +3,8 @@ package ConditionalEntropy;
 use strict;
 use DBI;
 
-my $totalrows = 174671;
+#my $totalrows = 174671;
+my $totalrows = 148474; # sub batch 0-8;
 
 # select entropy(sum(died) / count(*)) from rawData;
 # +-------------------------------+
@@ -12,13 +13,21 @@ my $totalrows = 174671;
 # |            0.2466629296541214 |
 # +-------------------------------+
 
+# select entropy(sum(died) / count(*)) from rawData where batch < 9;
+# +-------------------------------+
+# | entropy(sum(died) / count(*)) |
+# +-------------------------------+
+# |            0.2473044991493225 |
+# +-------------------------------+
+
+
 sub forKeys {
 	my $db = shift;
 
 	my @ais = @_;
 	my $sels = join(",", @ais, "died");
 
-	my $csr = $db->prepare("select $sels, count(*) from rawData group by $sels order by $sels");
+	my $csr = $db->prepare("select $sels, count(*) from rawData where batch < 9 group by $sels order by $sels");
 	$csr->execute;
 	my $sum = 0;
 	my $survivors = 0;
