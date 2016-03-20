@@ -4,7 +4,7 @@ use strict;
 use DBI;
 
 #my $totalrows = 174671;
-my $totalrows = 148474; # sub batch 0-8;
+my $totalrows = 139958; 
 
 # select entropy(sum(died) / count(*)) from rawData;
 # +-------------------------------+
@@ -13,11 +13,11 @@ my $totalrows = 148474; # sub batch 0-8;
 # |            0.2466629296541214 |
 # +-------------------------------+
 
-# select entropy(sum(died) / count(*)) from rawData where batch < 9;
+# select entropy(sum(died) / count(*)) from rawData where batch < 8;
 # +-------------------------------+
 # | entropy(sum(died) / count(*)) |
 # +-------------------------------+
-# |            0.2473044991493225 |
+# |            0.2476288229227066 |
 # +-------------------------------+
 
 
@@ -27,7 +27,7 @@ sub forKeys {
 	my @ais = @_;
 	my $sels = join(",", @ais, "died");
 
-	my $csr = $db->prepare("select $sels, count(*) from rawData where batch < 9 group by $sels order by $sels");
+	my $csr = $db->prepare("select $sels, count(*) from rawData where batch < 8 group by $sels order by $sels");
 	$csr->execute;
 	my $sum = 0;
 	my $survivors = 0;

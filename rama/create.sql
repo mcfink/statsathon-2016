@@ -1235,3 +1235,18 @@ AIS919404 boolean not null) engine=myisam;
 
 load data local infile '/Users/ddcramak/work/data-science-meeetup/data/statsathon/AIS_train70.csv' into table rawData fields terminated by ',' ignore 1 lines;
 
+alter table rawData add key(
+AIS110099,
+AIS110202,
+AIS110402,
+AIS110600,
+AIS110602,
+AIS110604,
+AIS110606,
+AIS110800
+);
+
+alter table rawData add batch int unsigned;
+alter table rawData add key(batch);
+
+update rawData set batch=floor(10*rand());
